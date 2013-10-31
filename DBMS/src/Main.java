@@ -15,7 +15,7 @@ public class Main {
 				scan.close();
 				return;
 			}
-			parser.parse(cmd);
+			parser.parseSQL(cmd);
 		}
 	}
 	
