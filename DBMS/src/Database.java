@@ -14,6 +14,6 @@ public interface Database {
 
 	public void removeTable(String tableName);
 
-	public StdTable getTable(String tableName);
+	public Table getTable(String tableName);
 
 }
