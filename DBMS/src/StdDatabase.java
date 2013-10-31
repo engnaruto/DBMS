@@ -2,7 +2,7 @@ import java.io.File;
 import java.util.Hashtable;
 
 public class StdDatabase implements Database{
-//hiiiiiiiiiiiiiiiiii
+
 //	private Hashtable<String, StdTable> tables;
 	File dbFile;
 	
