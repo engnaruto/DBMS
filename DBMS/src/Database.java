@@ -4,8 +4,6 @@ public interface Database {
 
 	public String getName();
 
-	public void setName(String name);
-
 	public Hashtable<String, StdTable> getAllTables();
 
 	public void setAllTables(Hashtable<String, StdTable> tables);

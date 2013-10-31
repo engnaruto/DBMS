@@ -3,7 +3,6 @@ import java.util.Hashtable;
 
 public class StdDatabase implements Database{
 
-//	private Hashtable<String, StdTable> tables;
 	File dbFile;
 	
 	public StdDatabase(File dbFile) {
@@ -14,30 +13,28 @@ public class StdDatabase implements Database{
 		return dbFile.getName();
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	/*don't acctually need them now*/	
+	// we don't actually need this now	
 	public Hashtable<String, StdTable> getAllTables() {
 		return null;
 	}
 
+	// we don't actually need this now	
 	public void setAllTables(Hashtable<String, StdTable> tables) {
 		//this.tables = tables;
 	}
 	
-	public void addTable(String tableName) {
-		tables.put(tableName, new StdTable(tableName));
+	public void addTable(String tableName, ColumnIdentifier[] columnsId) {
+		
 	}
 
 	public void removeTable(String tableName) {
-		tables.remove(tableName);
+//		tables.remove(tableName);
 	}
 
 	//important for the modification in the table
-	public StdTable getTable(String tableName) {
-		return tables.get(tableName);
+	public Table getTable(String tableName) {
+//		return tables.get(tableName);
+		return null;
 	}
 
 }
