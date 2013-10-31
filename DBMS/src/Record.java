@@ -9,16 +9,15 @@ public class Record {
 	}
 
 	public Object getCell(int index) {
-		return index;
+		return values[index];
 	}
 	
 	public void setCell(int index, Object value) {
+		values[index] = value;
 	}
 
-	public Object[] getContainer() {
+	public String[] getColNames() {
 		return columnsNames;
 	}
 
-	public void setContainer(Object[] container) {
-	}
 }

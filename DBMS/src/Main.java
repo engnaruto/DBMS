@@ -1,11 +1,11 @@
-import java.util.Scanner;
+//import java.util.Scanner;
 
 public class Main {
 	
 	public static void main(String[] args) {
-		Scanner scan = new Scanner(System.in);
+		//Scanner scan = new Scanner(System.in);
 		DBMS mainDBSM = new StdDBMS();
-		SQLParser parser = new SQLParser(mainDBSM);
+		//SQLParser parser = new SQLParser(mainDBSM);
 		System.out.println("Omario Database Management System 1.0");
 		System.out.println("Loading the interactive shell...");
 		try {
