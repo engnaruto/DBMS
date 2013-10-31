@@ -26,6 +26,7 @@ public class StdDatabase implements Database{
 	public void addTable(String tableName, ColumnIdentifier[] columnsId) throws Exception {
 		File xmlFile = new File("absolute: " + dbFile.getAbsolutePath()
 	                            + File.separatorChar + tableName + ".xml");
+		System.out.println(xmlFile.getAbsolutePath());
 		if (xmlFile.exists()) {
 			throw new Exception("Table exists!");
 		}
