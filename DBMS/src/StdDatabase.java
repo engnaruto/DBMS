@@ -24,14 +24,14 @@ public class StdDatabase implements Database{
 	}
 	
 	public void addTable(String tableName, ColumnIdentifier[] columnsId) throws Exception {
-		File xmlFile = new File("absolute: " + dbFile.getAbsolutePath()
+		File xmlFile = new File(dbFile.getAbsolutePath()
 	                            + File.separatorChar + tableName + ".xml");
 		System.out.println(xmlFile.getAbsolutePath());
 		if (xmlFile.exists()) {
 			throw new Exception("Table exists!");
 		}
-		xmlFile.createNewFile();
-		
+		XMLHandler hndl = new XMLHandler(xmlFile, columnsId, true);
+		hndl.close();
 	}
 
 	public void removeTable(String tableName) {
