@@ -1,50 +1,14 @@
-import java.awt.Point;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.InputStream;
+import java.io.*;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
-import javax.swing.JFileChooser;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.stream.XMLEventFactory;
-import javax.xml.stream.XMLEventReader;
-import javax.xml.stream.XMLEventWriter;
-import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.XMLOutputFactory;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.events.Attribute;
-import javax.xml.stream.events.Characters;
-import javax.xml.stream.events.EndElement;
-import javax.xml.stream.events.StartDocument;
-import javax.xml.stream.events.StartElement;
-import javax.xml.stream.events.XMLEvent;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-
-import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+import javax.xml.stream.*;
+import javax.xml.stream.events.*;
 
 public class XMLHandler {
 
 	private ColumnIdentifier[] colID;
 	private XMLEventReader eventReader;
 	private XMLEventWriter eventWriter;
-
-	private String tableName;
-	private ArrayList<String> columnsName;
-	private ArrayList<Record> records;
-
 	private XMLEventFactory eventFactory;
 
 	public XMLHandler(File file, ColumnIdentifier[] colID, boolean write) {
@@ -67,9 +31,6 @@ public class XMLHandler {
 		// Setup a new eventReader
 		InputStream in = new FileInputStream(file);
 		eventReader = inputFactory.createXMLEventReader(in);
-		eventReader.nextEvent();
-		eventReader.nextEvent();
-
 	}
 
 	private void writeXML(File file) throws Exception {
@@ -87,17 +48,6 @@ public class XMLHandler {
 				"", "config");
 		eventWriter.add(configStartElement);
 		eventWriter.add(eventFactory.createDTD("\n"));
-	}
-
-	private void addAllRecordes() throws XMLStreamException {
-		for (Record l : records) {
-			Object[] q = l.getContainer();
-			setStart();
-			for (int i = 0; i < columnsName.size(); i++) {
-				createNode(columnsName.get(i), q[i].toString());
-			}
-			setEnd();
-		}
 	}
 
 	private void setEnd() throws XMLStreamException {
@@ -119,17 +69,6 @@ public class XMLHandler {
 		eventWriter.add(end);
 	}
 
-	// public void addRecord(Record record) throws XMLStreamException {
-	// records.add(record);
-	// try {
-	// createXML();
-	// } catch (Exception e) {
-	// // TODO Auto-generated catch block
-	// e.printStackTrace();
-	// }
-	// // readConfig(tableName+".xml");
-	// }
-
 	private void createNode(String name, String value)
 			throws XMLStreamException {
 
@@ -150,63 +89,46 @@ public class XMLHandler {
 
 	}
 
-	// event driven
 	public Record readNextRecord() throws Exception {
 		String[] columnsNames = new String[colID.length];
 		Object[] values = new Object[colID.length];
-		// read <Record>
-		eventReader.nextEvent();
-		eventReader.nextEvent();
-		eventReader.nextEvent();
-		
-		for (int i = 0; i < colID.length; i ++){
-			XMLEvent event = eventReader.nextEvent();
-			if (event.isStartElement()) {
-				System.out.println(event.asStartElement().getName());
-				//System.out.println(event.asCharacters().getData());
-			} else {
-				System.out.println("not start");
-				i--;
-			}
-		}
-		/*
+
 		// read elements
+		int i = 0;
 		while (eventReader.hasNext()) {
 			XMLEvent event = eventReader.nextEvent();
 			if (event.isStartElement()) {
 				StartElement startElement = event.asStartElement();
 				System.out.println(event.asStartElement().getName());
-//				System.out.println(event.asCharacters().getData());
 				// If we have an item element, we create a new item
-
 				if (event.asStartElement().getName().getLocalPart()
 						.equals(colID[i].getColumnName())) {
 					event = eventReader.nextEvent();
-					// item.add(event.asCharacters().getData());
 					columnsNames[i] = colID[i].getColumnName();
+					System.out.println(event.asCharacters().getData());
 					values[i++] = event.asCharacters().getData();
 					continue;
 				}
-
-				// If we reach the end of an item element, we add it to the list
-				if (event.isEndElement()) {
-					EndElement endElement = event.asEndElement();
-					if (endElement.getName().getLocalPart().equals("Record")) {
-						System.out.println("ended");
-						// System.out.println(values[0]);
-						return (new Record(columnsNames, values));
-					}
+			}
+			// If we reach the end of an item element, we add it to the list
+			if (event.isEndElement()) {
+				EndElement endElement = event.asEndElement();
+				if (endElement.getName().getLocalPart().equals("Record")) {
+					return (new Record(columnsNames, values));
 				}
 
 			}
 
-		}*/
-		System.out.println(";S");
+		}
 		return null;
 	}
 
-	public void writeNextRecord(Record record) {
-
+	public void writeNextRecord(Record record) throws XMLStreamException {
+		Object[] a = record.getContainer();
+		setStart();
+		for (int i = 0; i < a.length; i++)
+			createNode(colID[i].getColumnName(), a[i].toString());
+		setEnd();
 	}
 
 	public void readConfig(String configFile) throws Exception {
@@ -220,9 +142,13 @@ public class XMLHandler {
 
 	}
 
-	public void closeXML() throws XMLStreamException {
+	public void closeXMLWriter() throws XMLStreamException {
 		eventWriter.add(eventFactory.createEndDocument());
 		eventWriter.close();
+	}
+	
+	public void closeXMLReader() throws XMLStreamException {
+		eventReader.close();
 	}
 
 }

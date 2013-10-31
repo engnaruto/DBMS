@@ -1,26 +1,24 @@
 public class Record {
 	
-	private Object[] container;
+	private String[] columnsNames;
+	private Object[] values;
 	
-	public Record(int size){
-		container = new Object[size];
+	public Record(String[] columnsNames, Object[] values){
+		this.columnsNames = columnsNames;
+		this.values = values;
 	}
 
 	public Object getCell(int index) {
-		return container[index];
+		return index;
 	}
 	
 	public void setCell(int index, Object value) {
-		container[index] = value;
 	}
 
 	public Object[] getContainer() {
-		return container;
+		return columnsNames;
 	}
 
 	public void setContainer(Object[] container) {
-		this.container = container;
 	}
-	
-	
 }
