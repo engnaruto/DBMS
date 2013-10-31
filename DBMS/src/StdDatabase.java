@@ -1,17 +1,17 @@
+import java.io.File;
 import java.util.Hashtable;
 
 public class StdDatabase implements Database{
 
-	private String name;
-	private Hashtable<String, StdTable> tables;
+//	private Hashtable<String, StdTable> tables;
 	File dbFile;
 	
 	public StdDatabase(File dbFile) {
-		
+		this.dbFile = dbFile;
 	}
 
 	public String getName() {
-		return name;
+		//return dbFile;
 	}
 
 	public void setName(String name) {

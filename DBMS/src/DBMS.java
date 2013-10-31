@@ -5,6 +5,12 @@ public interface DBMS {
 	
 	public void createDB(String DBName) throws Exception;
 	
+	public void removeDB(String DBName);
+	
+	public StdDatabase getUsedDB();
+	
+	public void setUsedDB(String dbName) throws Exception;
+	
 	//public void createTable(String dbName, String tableName, String[] columnsNames, Class<?>[] columnsTypes) throws Exception;
 	
 	//public RecordSet selectFromTable(String dbName, String tableName, String[] columnsNames, Condition condition);
@@ -16,12 +22,8 @@ public interface DBMS {
 	//public void updateTable(String dbName, String tableName, String[] columnsNames, Object[] values, Condition condition);
 	
 	// added this method
-	public void removeDB(String DBName);
 	
 	//public Hashtable<String, Database> getDBContainer();
 	
-	public StdDatabase getUsedDB();
-	
-	public void setUsedDB(String dbName);
 	 
 }

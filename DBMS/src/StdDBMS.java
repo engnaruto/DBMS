@@ -1,5 +1,4 @@
 import java.io.File;
-import java.util.Hashtable;
 
 public class StdDBMS implements DBMS {
 
@@ -33,6 +32,11 @@ public class StdDBMS implements DBMS {
 	}
 
 	@Override
+	public void removeDB(String DBName) {
+		
+	}
+	
+	@Override
 	public void setUsedDB(String dbName) throws Exception {
 		File usedDB = new File(path + dbName);
 		if (!usedDB.exists()) {
@@ -45,7 +49,5 @@ public class StdDBMS implements DBMS {
 	public StdDatabase getUsedDB() {
 		return usedDatabase;
 	}
-
-
-
+	
 }
