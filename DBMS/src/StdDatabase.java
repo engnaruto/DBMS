@@ -23,7 +23,13 @@ public class StdDatabase implements Database{
 		//this.tables = tables;
 	}
 	
-	public void addTable(String tableName, ColumnIdentifier[] columnsId) {
+	public void addTable(String tableName, ColumnIdentifier[] columnsId) throws Exception {
+		File xmlFile = new File("absolute: " + dbFile.getAbsolutePath()
+	                            + File.separatorChar + tableName + ".xml");
+		if (xmlFile.exists()) {
+			throw new Exception("Table exists!");
+		}
+		xmlFile.createNewFile();
 		
 	}
 

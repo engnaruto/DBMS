@@ -8,7 +8,7 @@ public interface Database {
 
 	public void setAllTables(Hashtable<String, StdTable> tables);
 
-	public void addTable(String tableName, ColumnIdentifier[] columnsId);
+	public void addTable(String tableName, ColumnIdentifier[] columnsId) throws Exception;
 
 	public void removeTable(String tableName);
 
