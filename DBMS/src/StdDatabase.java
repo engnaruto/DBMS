@@ -2,7 +2,7 @@ import java.io.File;
 import java.util.Hashtable;
 
 public class StdDatabase implements Database{
-
+//hiiiiiiiiiiiiiiiiii
 //	private Hashtable<String, StdTable> tables;
 	File dbFile;
 	
@@ -11,21 +11,20 @@ public class StdDatabase implements Database{
 	}
 
 	public String getName() {
-		//return dbFile;
+		return dbFile.getName();
 	}
 
 	public void setName(String name) {
 		this.name = name;
 	}
 
-/*don't acctually need them now*/
-	
+	/*don't acctually need them now*/	
 	public Hashtable<String, StdTable> getAllTables() {
-		return tables;
+		return null;
 	}
 
 	public void setAllTables(Hashtable<String, StdTable> tables) {
-		this.tables = tables;
+		//this.tables = tables;
 	}
 	
 	public void addTable(String tableName) {
