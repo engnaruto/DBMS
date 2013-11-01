@@ -64,10 +64,10 @@ public class DTDGenerator extends org.xml.sax.helpers.DefaultHandler {
 
 	public static void main(String args[]) throws java.lang.Exception {
 		// Check the command-line arguments.
-		if (args.length != 1) {
-			System.err.println("Usage: java DTDSAXGen input-file >output-file");
-			System.exit(1);
-		}
+		//if (args.length != 1) {
+		//	System.err.println("Usage: java DTDSAXGen input-file >output-file");
+		//	System.exit(1);
+		//}
 
 		// Instantiate and run the application
 		DTDGenerator app = new DTDGenerator();
