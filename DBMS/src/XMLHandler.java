@@ -25,6 +25,7 @@ public class XMLHandler {
 		} catch (Exception e) {
 			System.out.println("some error!");
 		}
+
 	}
 
 	public void readXML(File file) throws Exception {
@@ -192,5 +193,4 @@ public class XMLHandler {
 			System.out.println("Some error during close.");
 		}
 	}
-
 }
