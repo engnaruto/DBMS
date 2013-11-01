@@ -31,9 +31,9 @@ public class StdTableTest {
 	@Test
 	public void testInsert() {
 		Table tbl = getUsersTable();
-////		if (tbl == null)
-////			fail("can't read users table");
-//		
+		if (tbl == null)
+			fail("can't read users table");
+		
 		// record 1
 		//String cols[] = {"longer", "name"   , "logic", /*"birth"*/};
 		//String vals[] = {"117"   , "mina",    "true",  /*"2012-01-01T02:00:00"*/};
