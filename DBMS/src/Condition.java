@@ -10,9 +10,14 @@ public class Condition {
 
 	public Condition(String cond, Table table) {
 		String op1 = cond.substring(0, cond.indexOf(' '));
-		String op2 = cond.substring(cond.lastIndexOf(' ')+1, cond.length());
+		String op2;
+		
+		if(cond.contains("\""))
+			op2 = cond.substring(cond.indexOf('\"')+1, cond.lastIndexOf('\"'));
+		else
+			op2 = cond.substring(cond.lastIndexOf(' ')+1, cond.length());
+		
 		List<String> attrNames = table.getColumnsNames();
-
 		condition = cond;
 		op1AttrNum = -1;
 		op2AttrNum = -1;
@@ -25,7 +30,8 @@ public class Condition {
 				op2AttrNum = i;
 			i++;
 		}
-		operator = cond.substring(cond.indexOf(' ')+1, cond.lastIndexOf(' '));
+		operator = cond.substring(cond.indexOf(' ')+1, (cond.contains("\""))?
+				cond.indexOf('\"') : cond.lastIndexOf(' '));
 	}
 
 	public Condition() {
@@ -73,25 +79,34 @@ public class Condition {
 
 	@SuppressWarnings("deprecation")
 	private Object RHSConstValue(Object LHS) { // parse to same type as LHS
-		String op2 = condition.substring(condition.lastIndexOf(' ')+1,
-				condition.length());
+		String op2;
+		if(condition.contains("\""))
+			op2 = condition.substring(condition.indexOf('\"')+1, condition.lastIndexOf('\"'));
+		else
+			op2 = condition.substring(condition.lastIndexOf(' ')+1, condition.length());
 
 		if (LHS == null)
 			return null;
-		else if (LHS instanceof Integer)
-			return Integer.valueOf(op2);
-		else if (LHS instanceof Double)
-			return Double.valueOf(op2);
-		else if (LHS instanceof Float)
-			return Float.valueOf(op2);
-		else if (LHS instanceof Long)
-			return Long.valueOf(op2);
-		else if (LHS instanceof String)
-			return String.valueOf(op2);
-		else if (LHS instanceof Date)
-			return Date.parse(op2);
-		else if (LHS instanceof Boolean)
-			return Boolean.getBoolean(op2);
+
+		try{
+			if (LHS instanceof Integer)
+				return Integer.valueOf(op2);
+			if (LHS instanceof Double)
+				return Double.valueOf(op2);
+			if (LHS instanceof Float)
+				return Float.valueOf(op2);
+			if (LHS instanceof Long)
+				return Long.valueOf(op2);
+			if (LHS instanceof String)
+				return String.valueOf(op2);
+			if (LHS instanceof Date)
+				return Date.parse(op2);
+			if (LHS instanceof Boolean)
+				return Boolean.getBoolean(op2);
+		}
+		catch(Exception e){
+			return null;
+		}
 		return null;
 	}
 }
