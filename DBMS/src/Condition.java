@@ -5,15 +5,14 @@ import java.util.List;
 
 public class Condition {
 
-	int op1AttrNum, op2AttrNum;
-
+	String op1AttrName, op2AttrName;
 	String operator;
 	String condition;
 
 	public Condition(String cond, Table table) {
 		String op1 = cond.substring(0, cond.indexOf(' '));
 		String op2;
-		
+
 		if(cond.contains("\""))
 			op2 = cond.substring(cond.indexOf('\"')+1, cond.lastIndexOf('\"'));
 		else
@@ -25,23 +24,17 @@ public class Condition {
 			attrNames.add(colIDs[i].getColumnName());
 		
 		condition = cond;
-		op1AttrNum = -1;
-		op2AttrNum = -1;
+		op1AttrName = null;
+		op2AttrName = null;
 
-		int i = 0;
 		for (String s : attrNames) {
 			if (op1.compareTo(s) == 0)
-				op1AttrNum = i;
+				op1AttrName = new String(s);
 			if (op2.compareTo(s) == 0)
-				op2AttrNum = i;
-			i++;
+				op2AttrName = new String(s);
 		}
 		operator = cond.substring(cond.indexOf(' ')+1, (cond.contains("\""))?
 				cond.indexOf('\"') : cond.lastIndexOf(' '));
-	}
-
-	public Condition() {
-		new Condition("202122 = 202122", new StdTable("TempTable", null, null));
 	}
 
 	public boolean meetsCondition(Record rec) {
@@ -69,16 +62,15 @@ public class Condition {
 	}
 
 	private Object getLHSValue(Record rec) {
-		if (op1AttrNum != -1)
-			return rec.getCell(op1AttrNum);
+		if (op1AttrName != null)
+			return rec.getValue(op1AttrName);
 		else
 			return null;
-
 	}
 
 	private Object getRHSValue(Record rec) {
-		if (op2AttrNum != -1)
-			return rec.getCell(op2AttrNum);
+		if (op2AttrName != null)
+			return rec.getValue(op2AttrName);
 		else
 			return RHSConstValue(getLHSValue(rec));
 	}
