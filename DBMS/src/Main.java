@@ -24,7 +24,7 @@ public class Main {
 		}
 		
 		Database tarekDB = mainDBSM.getUsedDB();
-		try {
+		/*try {
 			ColumnIdentifier[] colIDs = new ColumnIdentifier[4];
 			colIDs[0] = new ColumnIdentifier("firstName", String.class);
 			colIDs[1] = new ColumnIdentifier("lastName", String.class);
@@ -34,6 +34,25 @@ public class Main {
 		} catch (Exception e) {
 			System.out.println("table users exist!");
 		}
+		
+		try {
+			ColumnIdentifier[] colIDs = new ColumnIdentifier[4];
+			colIDs[0] = new ColumnIdentifier("tarek", String.class);
+			colIDs[1] = new ColumnIdentifier("omar", String.class);
+			colIDs[2] = new ColumnIdentifier("mostafa", Integer.class);
+			colIDs[3] = new ColumnIdentifier("iocoder", SimpleDateFormat.class);
+			tarekDB.addTable("students", colIDs);
+		} catch (Exception e) {
+			System.out.println("table students exist!");
+		}*/
+		
+		/*
+		try {
+			tarekDB.removeTable("users");
+		} catch (Exception e) {
+			System.out.println("can't remove users!");
+		}
+		*/
 		
 		/*
 		while(true) {
