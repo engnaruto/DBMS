@@ -5,6 +5,7 @@ public class StdTable implements Table {
 	private String tableName;
 	File tableFile;
 	File tmpFile;
+	File dtdFile;
 	ColumnIdentifier[] columnsId;
 
 	public StdTable(String tableName, File tableFile,
@@ -14,6 +15,8 @@ public class StdTable implements Table {
 		this.columnsId = columnsId;
 		this.tmpFile = new File(tableFile.getParentFile().getAbsolutePath()
 				+ File.separatorChar + tableName + ".tmp");
+		this.dtdFile = new File(tableFile.getParentFile().getAbsolutePath()
+				+ File.separatorChar + tableName + ".dtd");
 	}
 
 	public String getTableName() {
@@ -47,16 +50,19 @@ public class StdTable implements Table {
 		tableFileXMLHandler.close();
 		// delete tmpFile
 		tmpFile.delete();
+
+		DTDGenerator.main(new String[] { tableFile.getAbsolutePath(),
+				dtdFile.getAbsolutePath() });
 	}
 
 	public RecordSet select(String[] columnsNames, Condition condition) {
-		
+
 		// make new instance
 		RecordSet ret = new RecordSet(columnsNames);
-		
+
 		// open tableFile for read
 		XMLHandler hndl = new XMLHandler(tableFile, columnsId, this, false);
-		
+
 		// loop
 		Record readRecord;
 		try {
@@ -71,10 +77,10 @@ public class StdTable implements Table {
 		} catch (Exception e) {
 			// do nothing.
 		}
-		
+
 		// close hndl:
 		hndl.close();
-		
+
 		// return the record set
 		return ret;
 	}

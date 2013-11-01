@@ -1,6 +1,10 @@
 import org.xml.sax.*;
 import java.util.*;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+
 import javax.xml.parsers.SAXParserFactory;
 
 /**
@@ -69,7 +73,7 @@ public class DTDGenerator extends org.xml.sax.helpers.DefaultHandler {
 		DTDGenerator app = new DTDGenerator();
 
 		app.run(args[0]);
-		app.printDTD();
+		app.printDTD(args[1]);
 	}
 
 	public DTDGenerator() {
@@ -129,11 +133,14 @@ public class DTDGenerator extends org.xml.sax.helpers.DefaultHandler {
 
 	/**
 	 * When the whole document has been analysed, construct the DTD
+	 * 
+	 * @throws IOException
 	 */
 
-	private void printDTD() {
+	private void printDTD(String dtdFilePath) throws IOException {
+		// TODO
 		// process the element types encountered, in turn
-
+		PrintWriter out = new PrintWriter(new FileWriter(new File(dtdFilePath)));
 		Iterator e = elementList.keySet().iterator();
 		while (e.hasNext()) {
 			String elementname = (String) e.next();
@@ -143,16 +150,15 @@ public class DTDGenerator extends org.xml.sax.helpers.DefaultHandler {
 
 			// EMPTY content
 			if (childKeys.size() == 0 && !ed.hasCharacterContent)
-				System.out.print("<!ELEMENT " + elementname + " EMPTY >\n");
+				out.print("<!ELEMENT " + elementname + " EMPTY >\n");
 
 			// CHARACTER content
 			if (childKeys.size() == 0 && ed.hasCharacterContent)
-				System.out.print("<!ELEMENT " + elementname
-						+ " ( #PCDATA ) >\n");
+				out.print("<!ELEMENT " + elementname + " ( #PCDATA ) >\n");
 
 			// ELEMENT content
 			if (childKeys.size() > 0 && !ed.hasCharacterContent) {
-				System.out.print("<!ELEMENT " + elementname + " ( ");
+				out.print("<!ELEMENT " + elementname + " ( ");
 
 				if (ed.sequenced) {
 
@@ -162,19 +168,19 @@ public class DTDGenerator extends org.xml.sax.helpers.DefaultHandler {
 					Enumeration c = ed.childseq.elements();
 					while (true) {
 						ChildDetails ch = (ChildDetails) c.nextElement();
-						System.out.print(ch.name);
+						out.print(ch.name);
 						if (ch.repeatable && !ch.optional)
-							System.out.print("+");
+							out.print("+");
 						if (ch.repeatable && ch.optional)
-							System.out.print("*");
+							out.print("*");
 						if (ch.optional && !ch.repeatable)
-							System.out.print("?");
+							out.print("?");
 						if (c.hasMoreElements())
-							System.out.print(", ");
+							out.print(", ");
 						else
 							break;
 					}
-					System.out.print(" ) >\n");
+					out.print(" ) >\n");
 				} else {
 
 					// the children don't always appear in the same sequence; so
@@ -183,23 +189,23 @@ public class DTDGenerator extends org.xml.sax.helpers.DefaultHandler {
 
 					Iterator c1 = childKeys.iterator();
 					while (c1.hasNext()) {
-						System.out.print((String) c1.next());
+						out.print((String) c1.next());
 						if (c1.hasNext())
-							System.out.print(" | ");
+							out.print(" | ");
 					}
-					System.out.print(" )* >\n");
+					out.print(" )* >\n");
 				}
 			}
 			;
 
 			// MIXED content
 			if (childKeys.size() > 0 && ed.hasCharacterContent) {
-				System.out.print("<!ELEMENT " + elementname + " ( #PCDATA");
+				out.print("<!ELEMENT " + elementname + " ( #PCDATA");
 				Iterator c2 = childKeys.iterator();
 				while (c2.hasNext()) {
-					System.out.print(" | " + (String) c2.next());
+					out.print(" | " + (String) c2.next());
 				}
-				System.out.print(" )* >\n");
+				out.print(" )* >\n");
 			}
 			;
 
@@ -244,43 +250,41 @@ public class DTDGenerator extends org.xml.sax.helpers.DefaultHandler {
 								/ MIN_ENUMERATION_RATIO)
 						&& (ad.values.size() <= MAX_ENUMERATION_VALUES);
 
-				System.out.print("<!ATTLIST " + elementname + " " + attname
-						+ " ");
+				out.print("<!ATTLIST " + elementname + " " + attname + " ");
 				String tokentype = (ad.allNMTOKENs ? "NMTOKEN" : "CDATA");
 
 				if (isid) {
-					System.out.print("ID");
+					out.print("ID");
 					doneID = true;
 				} else if (isfixed) {
 					String val = (String) ad.values.first();
-					System.out.print(tokentype + " #FIXED \"" + escape(val)
-							+ "\" >\n");
+					out.print(tokentype + " #FIXED \"" + escape(val) + "\" >\n");
 				} else if (isenum) {
-					System.out.print("( ");
+					out.print("( ");
 					Iterator v = ad.values.iterator();
 					while (v.hasNext()) {
-						System.out.print((String) v.next());
+						out.print((String) v.next());
 						if (!v.hasNext())
 							break;
-						System.out.print(" | ");
+						out.print(" | ");
 					}
 					;
-					System.out.print(" )");
+					out.print(" )");
 				} else
-					System.out.print(tokentype);
+					out.print(tokentype);
 
 				if (!isfixed) {
 					if (required)
-						System.out.print(" #REQUIRED >\n");
+						out.print(" #REQUIRED >\n");
 					else
-						System.out.print(" #IMPLIED >\n");
+						out.print(" #IMPLIED >\n");
 				}
 			}
 			;
-			System.out.print("\n");
+			out.print("\n");
 		}
 		;
-
+		out.close();
 	}
 
 	/**
