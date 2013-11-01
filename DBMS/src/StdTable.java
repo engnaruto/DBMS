@@ -97,12 +97,7 @@ public class StdTable implements Table {
 		while ((readRecord = tempFileXMLHandler.readNextRecord()) != null) {
 			if (condition.meetsCondition(readRecord)) {
 				for (int i = 0; i < columnsNames.length; i++) {
-					for (int j = 0; j < readRecord.countColumns(); j++) {
-						if (columnsNames[i].equalsIgnoreCase(readRecord
-								.getColumnName(j))) {
-							readRecord.setCell(j, values[i]);
-						}
-					}
+					readRecord.setCell(columnsNames[i], values[i]);
 				}
 			}
 			tableFileXMLHandler.writeNextRecord(readRecord);

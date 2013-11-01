@@ -1,39 +1,107 @@
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Enumeration;
+import java.util.Hashtable;
+
 public class Record {
 
-	private String[] columnsNames;
-	private Object[] values;
+	Hashtable<String, Object> cells;
+	Table table;
 
-	public Record(String[] columnsNames, Object[] values) {
-		this.columnsNames = columnsNames;
-		this.values = values;
+	private String getType(String columnName) {
+		for(ColumnIdentifier colID : table.getColIDs()) {
+			if (colID.getColumnName().equals(columnName)) {
+				return colID.getColumnType().getSimpleName();
+			}
+		}
+		return "String";
+	}
+	
+	public Record(String[] columnsNames, Object[] values, Table table) {
+		for (int i = 0; i < columnsNames.length; i++)
+			cells.put(columnsNames[i], values[i]);
+		this.table = table;
+	}
+	
+	public Record(String[] columnsNames, String[] values, Table table) {		
+		for(int i = 0; i < columnsNames.length; i++) {
+			Object o;
+			switch(getType(columnsNames[i])) {
+				case "Integer":
+					o = new Integer(values[i]);
+					break;
+				case "Double":
+					o = new Double(values[i]);
+					break;
+				case "Float":
+					o = new Float(values[i]);
+					break;
+				case "Long":
+					o = new Long(values[i]);
+					break;
+				case "Date":
+					final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
+				    SimpleDateFormat dfIn = new SimpleDateFormat(DATE_FORMAT);
+					try {
+						o = dfIn.parse(values[i]);
+					} catch (ParseException e) {
+						o = new Date(0);
+					}
+					break;
+				case "Boolean":
+					o = new Boolean(values[i]);
+					break;
+				default:
+					o = new String(values[i]);
+			}
+			cells.put(columnsNames[i], o);
+		}
+	}
+	
+	public Object getValue(String columnName) {
+		Object ret = cells.get(columnName);
+		if (ret == null) {
+			switch (getType(columnName)) {
+				case "Integer":
+					ret = new Integer(0);
+					break;
+				case "Double":
+					ret = new Double(0);
+					break;
+				case "Float":
+					ret = new Float(0);
+					break;
+				case "Long":
+					ret = new Long(0);
+					break;
+				case "Date":
+					ret = new Date(0);
+					break;
+				case "Boolean":
+					ret = new Boolean(false);
+					break;
+				default:
+					ret = new String("");
+			}
+		}
+		return ret;
 	}
 
-	public Object getCell(int index) {
-		return values[index];
-	}
-
-	public void setCell(int index, Object value) {
-		values[index] = value;
-	}
-
-	public String getColumnName(int index) {
-		return columnsNames[index];
-	}
-
-	public int countColumns() {
-		return columnsNames.length;
-	}
-
-	public String[] getColNames() {
-		return columnsNames;
+	public void setCell(String columnName, Object value) {
+		cells.put(columnName, value);
 	}
 
 	@Override
 	public String toString() {
 		String s = "{";
-		for (int i = 0; i < values.length; i++) {
-			s += columnsNames[i] + " = " + values[i];
-			if (i != values.length - 1)
+		
+		Enumeration<String> enumKey = cells.keys();
+		while (enumKey.hasMoreElements()) {
+			String columnName = enumKey.nextElement();
+			Object value = cells.get(columnName);
+			s += columnName + " = " + value.toString();
+			if (enumKey.hasMoreElements())
 				s += ", ";
 		}
 		s += "}";
