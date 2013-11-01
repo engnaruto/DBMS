@@ -38,6 +38,9 @@ public class StdTable implements Table {
 		// open tmpFile for read
 		XMLHandler tempFileXMLHandler = new XMLHandler(tmpFile, columnsId,
 				this, false);
+		
+		System.out.println("hello!");
+		
 		// open tableFile for write
 		XMLHandler tableFileXMLHandler = new XMLHandler(tableFile, columnsId,
 				this, true);
