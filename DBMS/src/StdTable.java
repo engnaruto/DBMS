@@ -30,10 +30,10 @@ public class StdTable implements Table {
 
 		// open tmpFile for read
 		XMLHandler tempFileXMLHandler = new XMLHandler(tmpFile, columnsId,
-				false);
+				this, false);
 		// open tableFile for write
 		XMLHandler tableFileXMLHandler = new XMLHandler(tableFile, columnsId,
-				true);
+				this, true);
 		// read all elements of tmpFile and write them into tableFile
 		Record readRecord;
 		while ((readRecord = tempFileXMLHandler.readNextRecord()) != null) {
@@ -59,10 +59,10 @@ public class StdTable implements Table {
 
 		// open tmpFile for read
 		XMLHandler tempFileXMLHandler = new XMLHandler(tmpFile, columnsId,
-				false);
+				this, false);
 		// open tableFile for write
 		XMLHandler tableFileXMLHandler = new XMLHandler(tableFile, columnsId,
-				true);
+				this, true);
 		// read all elements of tmpFile and write them into tableFile while
 		// !meet condition
 		Record readRecord;
@@ -87,10 +87,10 @@ public class StdTable implements Table {
 
 		// open tmpFile for read
 		XMLHandler tempFileXMLHandler = new XMLHandler(tmpFile, columnsId,
-				false);
+				this, false);
 		// open tableFile for write
 		XMLHandler tableFileXMLHandler = new XMLHandler(tableFile, columnsId,
-				true);
+				this, true);
 		// read all elements of tmpFile and write them into tableFile and update
 		// records if it meet the condition
 		Record readRecord;

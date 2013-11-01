@@ -14,9 +14,11 @@ public class XMLHandler {
 	private XMLEventReader eventReader;
 	private XMLEventWriter eventWriter;
 	private XMLEventFactory eventFactory;
+	private Table table;
 
-	public XMLHandler(File file, ColumnIdentifier[] colID, boolean write) {
+	public XMLHandler(File file, ColumnIdentifier[] colID, Table table, boolean write) {
 		this.colID = colID;
+		this.table = table;
 		try {
 			if (!write) {
 				readXML(file);

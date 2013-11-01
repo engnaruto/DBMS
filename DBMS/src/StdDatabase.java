@@ -111,11 +111,13 @@ public class StdDatabase implements Database {
 		// Make xmlFile for the table:
 		File xmlFile = new File(dbFile.getAbsolutePath() + File.separatorChar
 				+ tableName + ".xml");
-		XMLHandler hndl = new XMLHandler(xmlFile, columnsId, true);
-		hndl.close();
-
+		
 		// Make Table object in memory:
 		Table tbl = new StdTable(tableName, xmlFile, columnsId);
+		
+		// write empty XML file:
+		XMLHandler hndl = new XMLHandler(xmlFile, columnsId, tbl, true);
+		hndl.close();
 
 		// Add to the hash table:
 		tables.put(tableName, tbl);
