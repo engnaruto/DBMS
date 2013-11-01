@@ -26,7 +26,7 @@ public class StdTable implements Table {
 	public void insert(Record newValues) {
 		// rename table file to a "tableName.tmp":
 		tableFile.renameTo(tmpFile);
-		
+
 		// open tmpFile for read
 		
 		// open tableFile for write
