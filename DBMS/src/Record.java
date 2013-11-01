@@ -1,7 +1,6 @@
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.Hashtable;
 
 public class Record {
@@ -69,7 +68,7 @@ public class Record {
 	
 	public Object getValue(String columnName) {
 		Object ret = cells.get(columnName);
-		if (ret == null) {
+		if (ret == null || ret.equals("")) {
 			switch (getType(columnName)) {
 				case "Integer":
 					ret = new Integer(0);
@@ -104,12 +103,11 @@ public class Record {
 	public String toString() {
 		String s = "{";
 		
-		Enumeration<String> enumKey = cells.keys();
-		while (enumKey.hasMoreElements()) {
-			String columnName = enumKey.nextElement();
+		for (int i = 0; i < table.getColIDs().length; i++) {
+			String columnName = table.getColIDs()[i].getColumnName();
 			Object value = cells.get(columnName);
 			s += columnName + " = " + value.toString();
-			if (enumKey.hasMoreElements())
+			if (i < table.getColIDs().length - 1)
 				s += ", ";
 		}
 		s += "}";
