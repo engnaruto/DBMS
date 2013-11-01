@@ -10,6 +10,6 @@ public interface Database {
 
 	public void addTable(String tableName, ColumnIdentifier[] columnsId) throws Exception;
 
-	public void removeTable(String tableName);
+	public void removeTable(String tableName) throws Exception;
 
 }
