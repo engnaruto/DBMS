@@ -18,13 +18,21 @@ public class Record {
 		return "String";
 	}
 	
+	public Record(Table table) {
+		cells = new Hashtable<String, Object>();
+		this.table = table;
+	}
+	
 	public Record(String[] columnsNames, Object[] values, Table table) {
+		cells = new Hashtable<String, Object>();
 		for (int i = 0; i < columnsNames.length; i++)
 			cells.put(columnsNames[i], values[i]);
 		this.table = table;
 	}
 	
-	public Record(String[] columnsNames, String[] values, Table table) {		
+	public Record(String[] columnsNames, String[] values, Table table) {
+		cells = new Hashtable<String, Object>();
+		this.table = table;
 		for(int i = 0; i < columnsNames.length; i++) {
 			Object o;
 			switch(getType(columnsNames[i])) {
