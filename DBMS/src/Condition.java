@@ -10,7 +10,7 @@ public class Condition {
 
 	public Condition(String cond, Table table) {
 		String op1 = cond.substring(0, cond.indexOf(' '));
-		String op2 = cond.substring(cond.lastIndexOf(' '), cond.length());
+		String op2 = cond.substring(cond.lastIndexOf(' ')+1, cond.length());
 		List<String> attrNames = table.getColumnsNames();
 
 		condition = cond;
@@ -25,7 +25,7 @@ public class Condition {
 				op2AttrNum = i;
 			i++;
 		}
-		operator = cond.substring(cond.indexOf(' '), cond.lastIndexOf(' '));
+		operator = cond.substring(cond.indexOf(' ')+1, cond.lastIndexOf(' '));
 	}
 
 	public Condition() {
@@ -37,7 +37,7 @@ public class Condition {
 		Object RHS = getRHSValue(rec);
 
 		if (LHS == null || RHS == null || !(LHS instanceof Comparable)
-				|| !(RHS instanceof Comparable))
+				|| !(RHS instanceof Comparable) || !(LHS.getClass().equals(RHS.getClass())))
 			return true;
 
 		@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -73,7 +73,7 @@ public class Condition {
 
 	@SuppressWarnings("deprecation")
 	private Object RHSConstValue(Object LHS) { // parse to same type as LHS
-		String op2 = condition.substring(condition.lastIndexOf(' '),
+		String op2 = condition.substring(condition.lastIndexOf(' ')+1,
 				condition.length());
 
 		if (LHS == null)
