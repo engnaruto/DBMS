@@ -6,7 +6,7 @@ public interface Table {
 
 	public RecordSet select(String[] columnsNames, Condition condition);
 
-	public void insert(Record newValues);
+	public void insert(Record newValues) throws Exception;
 
 	public void delete(Condition condition);
 
