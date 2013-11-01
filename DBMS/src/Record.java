@@ -19,5 +19,16 @@ public class Record {
 	public String[] getColNames() {
 		return columnsNames;
 	}
+	@Override
+	public String toString(){
+		String s = "{";
+		for(int i  =0 ; i < values.length ; i++){
+			s+= columnsNames[i]+ " = " + values[i];
+			if(i !=values.length-1)s+=", ";
+		}
+		s+="}";
+		return s;
+		
+	}
 
 }
