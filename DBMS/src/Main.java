@@ -1,6 +1,5 @@
-import java.text.SimpleDateFormat;
-
-//import java.util.Scanner;
+// import java.text.SimpleDateFormat;
+// import java.util.Scanner;
 
 public class Main {
 	
@@ -23,7 +22,7 @@ public class Main {
 			System.out.println("DB not found!");
 		}
 		
-		Database tarekDB = mainDBSM.getUsedDB();
+		// Database tarekDB = mainDBSM.getUsedDB();
 		/*try {
 			ColumnIdentifier[] colIDs = new ColumnIdentifier[4];
 			colIDs[0] = new ColumnIdentifier("firstName", String.class);
