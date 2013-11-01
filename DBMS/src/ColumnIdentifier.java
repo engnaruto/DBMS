@@ -11,6 +11,16 @@ public class ColumnIdentifier {
 		columnName = name;
 		columnType = type;
 	}
+	
+	public ColumnIdentifier(String strColID) {
+		String strs[] = strColID.split(":");
+		try {
+			columnName = strs[0];
+			columnType = this.getClass().getClassLoader().loadClass(strs[1]);
+		} catch (ClassNotFoundException e) {
+			columnType = String.class;
+		}
+	}
 
 	public String getColumnName() {
 		return columnName;

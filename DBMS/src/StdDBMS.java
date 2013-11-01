@@ -8,7 +8,6 @@ public class StdDBMS implements DBMS {
 	File DBDir;
 	
 	public StdDBMS() {
-		
 		// get path
 		slash = File.separatorChar + "";
 		path = System.getProperty("user.home") + slash + "Databases" + slash;
@@ -28,7 +27,10 @@ public class StdDBMS implements DBMS {
 		File newDB = new File(path + DBName);
 		if (newDB.exists())
 			throw new Exception("Database exists!");
+		
+		// create DB directory
 		newDB.mkdir();
+		
 	}
 
 	@Override

@@ -3,15 +3,13 @@ import java.util.Hashtable;
 public interface Database {
 
 	public String getName();
-
-	public Hashtable<String, StdTable> getAllTables();
-
-	public void setAllTables(Hashtable<String, StdTable> tables);
+	
+	public Table getTable(String tableName);
+	
+	public Hashtable<String, Table> getAllTables();
 
 	public void addTable(String tableName, ColumnIdentifier[] columnsId) throws Exception;
 
 	public void removeTable(String tableName);
-
-	public Table getTable(String tableName);
 
 }

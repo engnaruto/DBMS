@@ -1,16 +1,23 @@
 import java.io.File;
-import java.util.List;
 
-public class StdTable implements Table{
+public class StdTable implements Table {
 
 	private String tableName;
-	private List<String> columnsNames;
-	private List<Class<?>> columnsTypes;
-	private XMLHandler handler;
 	File tableFile;
+	ColumnIdentifier[] columnsId;
 
-	public StdTable(String tableName) {
+	public StdTable(String tableName, File tableFile, ColumnIdentifier[] columnsId) {
 		this.tableName = tableName;
+		this.tableFile = tableFile;
+		this.columnsId = columnsId;
+	}
+	
+	public String getTableName() {
+		return tableName;
+	}
+
+	public ColumnIdentifier[] getColIDs() {
+		return columnsId;
 	}
 
 	public RecordSet select(String[] columnsNames, Condition condition) {
@@ -27,38 +34,6 @@ public class StdTable implements Table{
 
 	public void update(String[] columnsNames, Object[] values, Condition condition) {
 
-	}
-
-	public String getTableName() {
-		return tableName;
-	}
-
-	public void setTableName(String tableName) {
-		this.tableName = tableName;
-	}
-
-	public List<String> getColumnsNames() {
-		return columnsNames;
-	}
-
-	public void setColumnsNames(List<String> columnsNames) {
-		this.columnsNames = columnsNames;
-	}
-
-	public XMLHandler getHandler() {
-		return handler;
-	}
-
-	public void setHandler(XMLHandler handler) {
-		this.handler = handler;
-	}
-
-	public List<Class<?>> getColumnsTypes() {
-		return columnsTypes;
-	}
-
-	public void setColumnsTypes(List<Class<?>> columnsTypes) {
-		this.columnsTypes = columnsTypes;
 	}
 
 }

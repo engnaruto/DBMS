@@ -1,3 +1,5 @@
+import java.text.SimpleDateFormat;
+
 //import java.util.Scanner;
 
 public class Main {
@@ -23,7 +25,12 @@ public class Main {
 		
 		Database tarekDB = mainDBSM.getUsedDB();
 		try {
-			tarekDB.addTable("users", null);
+			ColumnIdentifier[] colIDs = new ColumnIdentifier[4];
+			colIDs[0] = new ColumnIdentifier("firstName", String.class);
+			colIDs[1] = new ColumnIdentifier("lastName", String.class);
+			colIDs[2] = new ColumnIdentifier("phone", Integer.class);
+			colIDs[3] = new ColumnIdentifier("birth", SimpleDateFormat.class);
+			tarekDB.addTable("users", colIDs);
 		} catch (Exception e) {
 			System.out.println("table users exist!");
 		}

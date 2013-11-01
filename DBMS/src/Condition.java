@@ -1,4 +1,5 @@
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -18,7 +19,11 @@ public class Condition {
 		else
 			op2 = cond.substring(cond.lastIndexOf(' ')+1, cond.length());
 		
-		List<String> attrNames = table.getColumnsNames();
+		List<String> attrNames = new ArrayList<String>();
+		ColumnIdentifier[] colIDs = table.getColIDs();
+		for (int i = 0; i < colIDs.length; i++)
+			attrNames.add(colIDs[i].getColumnName());
+		
 		condition = cond;
 		op1AttrNum = -1;
 		op2AttrNum = -1;
@@ -36,7 +41,7 @@ public class Condition {
 	}
 
 	public Condition() {
-		new Condition("202122 = 202122", new StdTable("TempTable"));
+		new Condition("202122 = 202122", new StdTable("TempTable", null, null));
 	}
 
 	public boolean meetsCondition(Record rec) {
