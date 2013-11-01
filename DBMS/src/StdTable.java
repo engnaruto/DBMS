@@ -50,7 +50,33 @@ public class StdTable implements Table {
 	}
 
 	public RecordSet select(String[] columnsNames, Condition condition) {
-		return null;
+		
+		// make new instance
+		RecordSet ret = new RecordSet(columnsNames);
+		
+		// open tableFile for read
+		XMLHandler hndl = new XMLHandler(tableFile, columnsId, this, false);
+		
+		// loop
+		Record readRecord;
+		try {
+			while ((readRecord = hndl.readNextRecord()) != null) {
+				if (condition.meetsCondition(readRecord)) {
+					Record r = new Record(this);
+					for (String col : columnsNames)
+						r.setCell(col, readRecord.getValue(col));
+					ret.add(r);
+				}
+			}
+		} catch (Exception e) {
+			// do nothing.
+		}
+		
+		// close hndl:
+		hndl.close();
+		
+		// return the record set
+		return ret;
 	}
 
 	public void delete(Condition condition) throws Exception {
