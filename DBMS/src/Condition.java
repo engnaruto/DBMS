@@ -102,7 +102,7 @@ public class Condition {
 			if (LHS instanceof Date)
 				return Date.parse(op2);
 			if (LHS instanceof Boolean)
-				return Boolean.getBoolean(op2);
+				return Boolean.parseBoolean(op2);
 		}
 		catch(Exception e){
 			return null;
