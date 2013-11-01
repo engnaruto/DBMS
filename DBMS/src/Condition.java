@@ -1,3 +1,4 @@
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -77,7 +78,7 @@ public class Condition {
 			return RHSConstValue(getLHSValue(rec));
 	}
 
-	@SuppressWarnings("deprecation")
+	
 	private Object RHSConstValue(Object LHS) { // parse to same type as LHS
 		String op2;
 		if(condition.contains("\""))
@@ -100,7 +101,7 @@ public class Condition {
 			if (LHS instanceof String)
 				return String.valueOf(op2);
 			if (LHS instanceof Date)
-				return Date.parse(op2);
+				return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(op2);
 			if (LHS instanceof Boolean)
 				return Boolean.parseBoolean(op2);
 		}
