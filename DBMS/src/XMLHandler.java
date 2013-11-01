@@ -91,9 +91,7 @@ public class XMLHandler {
 	}
 
 	public Record readNextRecord() throws Exception {
-		String[] columnsNames = new String[colID.length];
-		Object[] values = new Object[colID.length];
-
+		Record record = new Record(table);
 		// read elements
 		int i = 0;
 		while (eventReader.hasNext()) {
@@ -104,10 +102,8 @@ public class XMLHandler {
 				if (event.asStartElement().getName().getLocalPart()
 						.equals(colID[i].getColumnName())) {
 					event = eventReader.nextEvent();
-					columnsNames[i] = colID[i].getColumnName();
-					values[i] = parser(event.asCharacters().getData(),
-							colID[i].getColumnType());
-					i++;
+					record.setCell(colID[i].getColumnName(), parser(event.asCharacters().getData(),
+							colID[i].getColumnType()));
 					continue;
 				}
 			}
@@ -115,7 +111,7 @@ public class XMLHandler {
 			if (event.isEndElement()) {
 				EndElement endElement = event.asEndElement();
 				if (endElement.getName().getLocalPart().equals("Record")) {
-					return (new Record(columnsNames, values, table));
+					return record;
 				}
 
 			}
