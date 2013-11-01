@@ -35,11 +35,11 @@ public class StdTableTest {
 			fail("can't read users table");
 		
 		// record 1
-		String cols[] = {"longer", "name"   , "logic", "birth"};
-		String vals[] = {"113"   , "mido",    "fin",  "2012-01-01T02:00:00"};
-		Record r = new Record(cols, vals, tbl);
+		//String cols[] = {"longer", "name"   , "logic", /*"birth"*/};
+		//String vals[] = {"117"   , "mina",    "true",  /*"2012-01-01T02:00:00"*/};
+		//Record r = new Record(cols, vals, tbl);
 		try {
-			tbl.insert(r);
+			//tbl.insert(r);
 		} catch (Exception e) {
 			fail("can't insert record 1");
 		}
@@ -47,17 +47,37 @@ public class StdTableTest {
 
 	@Test
 	public void testSelect() {
-		//fail("Not yet implemented");
+		Table tbl = getUsersTable();
+		String cols[] = {"logic", "name", "longer"};
+		Condition cond = new Condition("longer < 120", tbl);
+		RecordSet rs = tbl.select(cols, cond);
+		for (Record r : rs) {
+			System.out.println(r);
+		}
 	}
 
 	@Test
 	public void testDelete() {
-		//fail("Not yet implemented");
+		//Table tbl = getUsersTable();
+		//Condition cond = new Condition("name = tito", tbl);
+		try {
+			//tbl.delete(cond);
+		} catch (Exception e) {
+			fail("some error in delete");
+		}
 	}
 
 	@Test
 	public void testUpdate() {
-		//fail("Not yet implemented");
+		Table tbl = getUsersTable();
+		Condition cond = new Condition("longer > 114", tbl);
+		String cols[] = {"name", "logic"};
+		Object vals[] = {"toko", "false" };
+		try {
+			tbl.update(cols, vals, cond);
+		} catch (Exception e) {
+			fail("some error in update");
+		}
 	}
 
 }
