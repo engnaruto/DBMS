@@ -46,7 +46,7 @@ public class StdTable implements Table {
 		// close tableFile
 		tableFileXMLHandler.close();
 		// delete tmpFile
-		tmpFile.deleteOnExit();
+		tmpFile.delete();
 	}
 
 	public RecordSet select(String[] columnsNames, Condition condition) {
