@@ -82,7 +82,7 @@ public class Record {
 					ret = new Boolean(false);
 					break;
 				default:
-					ret = new String("");
+					ret = new String("-");
 			}
 		}
 		return ret;
