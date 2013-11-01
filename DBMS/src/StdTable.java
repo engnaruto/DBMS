@@ -20,12 +20,12 @@ public class StdTable implements Table {
 		return columnsId;
 	}
 
-	public RecordSet select(String[] columnsNames, Condition condition) {
-		return null;
-	}
-
 	public void insert(Record newValues) {
 
+	}
+	
+	public RecordSet select(String[] columnsNames, Condition condition) {
+		return null;
 	}
 
 	public void delete(Condition condition) {
