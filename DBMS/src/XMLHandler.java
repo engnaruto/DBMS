@@ -1,10 +1,7 @@
 import java.io.*;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-
 import javax.xml.stream.*;
 import javax.xml.stream.events.*;
 
@@ -56,14 +53,12 @@ public class XMLHandler {
 	}
 
 	private void setEnd() throws XMLStreamException {
-		// TODO Auto-generated method stub
 		XMLEvent end = eventFactory.createDTD("\n");
 		eventWriter.add(eventFactory.createEndElement("", "", "Record"));
 		eventWriter.add(end);
 	}
 
 	private void setStart() throws XMLStreamException {
-		// TODO Auto-generated method stub
 		XMLEvent end = eventFactory.createDTD("\n");
 		// create and write Start Tag
 
@@ -103,7 +98,7 @@ public class XMLHandler {
 		while (eventReader.hasNext()) {
 			XMLEvent event = eventReader.nextEvent();
 			if (event.isStartElement()) {
-				StartElement startElement = event.asStartElement();
+				//StartElement startElement = event.asStartElement();
 				// If we have an item element, we create a new item
 				if (event.asStartElement().getName().getLocalPart()
 						.equals(colID[i].getColumnName())) {
@@ -119,7 +114,7 @@ public class XMLHandler {
 			if (event.isEndElement()) {
 				EndElement endElement = event.asEndElement();
 				if (endElement.getName().getLocalPart().equals("Record")) {
-					return (new Record(columnsNames, values));
+					return (new Record(columnsNames, values, table));
 				}
 
 			}
@@ -129,7 +124,6 @@ public class XMLHandler {
 	}
 
 	private Object parser(String data, Class<?> u) {
-		// TODO Auto-generated method stub
 		switch (u.getSimpleName()) {
 		case "Integer":
 			return Integer.parseInt(data);
@@ -147,7 +141,6 @@ public class XMLHandler {
 			try {
 				return getdate(data);
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
 				return data;
 			}
 
@@ -158,7 +151,6 @@ public class XMLHandler {
 	}
 
 	private Date getdate(String data) throws ParseException {
-		// TODO Auto-generated method stub
 		final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
 		String userDate = data;
 		SimpleDateFormat dfIn = new SimpleDateFormat(DATE_FORMAT);
@@ -168,26 +160,17 @@ public class XMLHandler {
 	}
 
 	public void writeNextRecord(Record record) throws XMLStreamException {
-		// Object[] a = record.getContainer();
-		// setStart();
-		// for (int i = 0; i < a.length; i++)
-		// if (colID[i].getColumnType().getSimpleName().equals("Date"))
-		// createNode(colID[i].getColumnName(), (new SimpleDateFormat(
-		// "yyyy-MM-dd'T'HH:mm:ss")).format(a[i]));
-		// else
-		// createNode(colID[i].getColumnName(), a[i].toString());
-		// setEnd();
-	}
-
-	public void readConfig(String configFile) throws Exception {
-
-		// First, create a new XMLInputFactory
-		XMLInputFactory inputFactory = XMLInputFactory.newInstance();
-		// Setup a new eventReader
-		InputStream in = new FileInputStream(configFile);
-		XMLEventReader eventReader = inputFactory.createXMLEventReader(in);
-		// read the XML document
-
+		Object[] a = new Object[table.getColIDs().length];
+		for (int i = 0; i < table.getColIDs().length; i++)
+			a[i] = record.getValue(table.getColIDs()[i].getColumnName());
+		setStart();
+		for (int i = 0; i < a.length; i++)
+		if (colID[i].getColumnType().getSimpleName().equals("Date"))
+			createNode(colID[i].getColumnName(), (new SimpleDateFormat(
+					"yyyy-MM-dd'T'HH:mm:ss")).format(a[i]));
+		else
+			createNode(colID[i].getColumnName(), a[i].toString());
+		setEnd();
 	}
 
 	public void closeXMLWriter() throws XMLStreamException {
