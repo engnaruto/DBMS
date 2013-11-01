@@ -28,6 +28,7 @@ public class StdTable implements Table {
 	}
 
 	public void insert(Record newValues) throws Exception {
+
 		// rename table file to a "tableName.tmp":
 		tableFile.renameTo(tmpFile);
 

@@ -35,11 +35,11 @@ public class StdTableTest {
 			fail("can't read users table");
 		
 		// record 1
-		//String cols[] = {"longer", "name"   , "logic", /*"birth"*/};
-		//String vals[] = {"117"   , "mina",    "true",  /*"2012-01-01T02:00:00"*/};
-		//Record r = new Record(cols, vals, tbl);
+		String cols[] = {"longer", "name"   , "logic", /*"birth"*/};
+		String vals[] = {"118"   , "mina",    "true",  /*"2012-01-01T02:00:00"*/};
+		Record r = new Record(cols, vals, tbl);
 		try {
-			//tbl.insert(r);
+			tbl.insert(r);
 		} catch (Exception e) {
 			fail("can't insert record 1");
 		}
