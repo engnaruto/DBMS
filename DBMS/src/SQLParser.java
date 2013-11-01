@@ -261,15 +261,19 @@ public class SQLParser {
 			if (isValues.equalsIgnoreCase("values")) {
 				String columnsValues = getBetweenBraces(tokens);
 				if (columnsNames != null && columnsValues != null) {
-					String[] trimmedCN = columnsNames.split(",");
-					String[] trimmedCV = columnsValues.split(",");
-					for (String s : trimmedCN)
-						s = s.trim();
-					for (String s : trimmedCV)
-						s = s.trim();
+					String[] colNames = columnsNames.split(",");
+					String[] colVals = columnsValues.split(",");
+
+					String[] trimmedCN = new String[colNames.length];
+					String[] trimmedCV = new String[colNames.length];
+
+					for (int i = 0; i < colNames.length; i++) {
+						trimmedCN[i] = colNames[i].trim();
+						trimmedCV[i] = colVals[i].trim();
+					}
 
 					Record newValues = new Record(trimmedCN, trimmedCV, tb);
-					
+
 					try {
 						tb.insert(newValues);
 					} catch (Exception e) {
