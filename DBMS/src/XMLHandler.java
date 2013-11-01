@@ -104,6 +104,7 @@ public class XMLHandler {
 					event = eventReader.nextEvent();
 					record.setCell(colID[i].getColumnName(), parser(event.asCharacters().getData(),
 							colID[i].getColumnType()));
+					i++;
 					continue;
 				}
 			}
