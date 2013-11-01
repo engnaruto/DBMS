@@ -31,6 +31,9 @@ public class StdTable implements Table {
 
 		// rename table file to a "tableName.tmp":
 		tableFile.renameTo(tmpFile);
+		
+		System.out.println("old file: " + tableFile.getAbsolutePath());
+		System.out.println("tmp file: " + tmpFile.getAbsolutePath());
 
 		// open tmpFile for read
 		XMLHandler tempFileXMLHandler = new XMLHandler(tmpFile, columnsId,
