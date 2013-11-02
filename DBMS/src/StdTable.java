@@ -146,5 +146,16 @@ public class StdTable implements Table {
 		tmpFile.delete();
 
 	}
+	
+	public void update(String[] columnsNames, String[] values,
+			Condition condition) throws Exception {
+		
+		Record r = new Record(columnsNames, values, this);
+		Object[] obj = new Object[columnsNames.length];
+		for (int i = 0; i < columnsNames.length; i++)
+			obj[i] = r.getValue(columnsNames[i]);
+		update(columnsNames, obj, condition);
+		
+	}
 
 }
