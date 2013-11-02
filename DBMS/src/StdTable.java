@@ -42,14 +42,10 @@ public class StdTable implements Table {
 				this, true);
 		// read all elements of tmpFile and write them into tableFile
 		Record readRecord;
-		try {
-			while ((readRecord = tempFileXMLHandler.readNextRecord()) != null) {
-				tableFileXMLHandler.writeNextRecord(readRecord);
-			}
-		} catch (Exception e) {
-			// do nothing.
+		while ((readRecord = tempFileXMLHandler.readNextRecord()) != null) {
+			tableFileXMLHandler.writeNextRecord(readRecord);
 		}
-		
+	
 		// write the new record inside tableFile
 		tableFileXMLHandler.writeNextRecord(newValues);
 		// close tmpFile
