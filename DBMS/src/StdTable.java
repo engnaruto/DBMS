@@ -1,4 +1,5 @@
 import java.io.File;
+import java.nio.file.Files;
 
 public class StdTable implements Table {
 
@@ -30,7 +31,7 @@ public class StdTable implements Table {
 	public void insert(Record newValues) throws Exception {
 
 		// rename table file to a "tableName.tmp":
-		tableFile.renameTo(tmpFile);
+		Files.move(tableFile.toPath(), tmpFile.toPath());
 		
 		System.out.println("old file: " + tableFile.getAbsolutePath());
 		System.out.println("tmp file: " + tmpFile.getAbsolutePath());
