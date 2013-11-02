@@ -198,7 +198,7 @@ public class SQLParser {
 							if (db != null) {
 								Table tb = db.getTable(tableName);
 
-								Condition cond = extractCondition(tokens, tb);
+								Condition cond =  extractCondition(tokens, tb);
 
 								if (tb != null) {
 									String[] arr = columnsNames.split(",");
