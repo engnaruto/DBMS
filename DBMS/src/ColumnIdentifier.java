@@ -6,7 +6,7 @@ public class ColumnIdentifier {
 	public ColumnIdentifier() {
 
 	}
-	
+
 	public ColumnIdentifier(String[] bySpace) {
 		if (bySpace.length == 2) {
 			columnName = bySpace[0];
@@ -22,9 +22,9 @@ public class ColumnIdentifier {
 			} else if (bySpace[1].equalsIgnoreCase("DOUBLE")) {
 				columnType = Double.class;
 			} else if (bySpace[1].equalsIgnoreCase("DATE")) {
-				// columnType = Date.class;
+				columnType = java.util.Date.class;
 			} else if (bySpace[1].equalsIgnoreCase("TIME")) {
-				// columnType = Time.class;
+				columnType = java.util.Date.class;
 			} else {
 				System.out.println("ERROR: THIS TYPE \"" + bySpace[1]
 						+ "\" IS NOT SUPPORTED");
@@ -39,7 +39,7 @@ public class ColumnIdentifier {
 		columnName = name;
 		columnType = type;
 	}
-	
+
 	public ColumnIdentifier(String strColID) {
 		String strs[] = strColID.split(":");
 		try {

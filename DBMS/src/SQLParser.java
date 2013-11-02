@@ -431,6 +431,9 @@ public class SQLParser {
 
 	private boolean validateCondition(String all) {
 
+		if (all == null)
+			return false;
+
 		String operatorPat = "(\\*|\\<\\=|\\>\\=|\\=|\\<|\\>)";
 
 		String intPat = "(-){0,1}[0-9]+";
