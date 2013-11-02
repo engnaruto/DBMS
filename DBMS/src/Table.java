@@ -12,5 +12,8 @@ public interface Table {
 
 	public void update(String[] columnsNames, Object[] values,
 			Condition condition) throws Exception;
+	
+	public void update(String[] columnsNames, String[] values,
+			Condition condition) throws Exception;
 
 }

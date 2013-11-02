@@ -42,14 +42,10 @@ public class StdTable implements Table {
 				this, true);
 		// read all elements of tmpFile and write them into tableFile
 		Record readRecord;
-		try {
-			while ((readRecord = tempFileXMLHandler.readNextRecord()) != null) {
-				tableFileXMLHandler.writeNextRecord(readRecord);
-			}
-		} catch (Exception e) {
-			// do nothing.
+		while ((readRecord = tempFileXMLHandler.readNextRecord()) != null) {
+			tableFileXMLHandler.writeNextRecord(readRecord);
 		}
-		
+	
 		// write the new record inside tableFile
 		tableFileXMLHandler.writeNextRecord(newValues);
 		// close tmpFile
@@ -154,6 +150,17 @@ public class StdTable implements Table {
 		// delete tmpFile
 		tmpFile.delete();
 
+	}
+	
+	public void update(String[] columnsNames, String[] values,
+			Condition condition) throws Exception {
+		
+		Record r = new Record(columnsNames, values, this);
+		Object[] obj = new Object[columnsNames.length];
+		for (int i = 0; i < columnsNames.length; i++)
+			obj[i] = r.getValue(columnsNames[i]);
+		update(columnsNames, obj, condition);
+		
 	}
 
 }
