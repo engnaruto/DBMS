@@ -101,7 +101,6 @@ public class SQLParser {
 				}
 			}
 		}
-
 	}
 
 	private void invokeUpdateTable(String tableName, StringTokenizer tokens) {
@@ -300,13 +299,20 @@ public class SQLParser {
 						trimmedCV[i] = colVals[i].trim();
 					}
 
-					Record newValues = new Record(trimmedCN, trimmedCV, tb);
-
+					Record newValues = null;
 					try {
-						tb.insert(newValues);
-					} catch (Exception e) {
-						System.out.println("ERROR: INSERTION FAILED");
+						newValues = new Record(trimmedCN, trimmedCV, tb);
+
+						try {
+							tb.insert(newValues);
+						} catch (Exception e) {
+							System.out.println("ERROR: INSERTION FAILED");
+						}
+
+					} catch (Exception e1) {
+						System.out.println("ERROR : WRONG INPUT");
 					}
+
 				}
 			}
 		}
