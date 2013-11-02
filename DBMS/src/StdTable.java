@@ -67,6 +67,11 @@ public class StdTable implements Table {
 
 		// make new instance
 		RecordSet ret = new RecordSet(columnsNames);
+	
+		for (int i = 0; i < columnsNames.length; i++) {
+			System.out.println(columnsNames[i]);
+		}
+		
 
 		// open tableFile for read
 		XMLHandler hndl = new XMLHandler(tableFile, columnsId, this, false);

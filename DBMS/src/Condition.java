@@ -9,20 +9,26 @@ public class Condition {
 	String operator;
 	String condition;
 
+	public String toString() {
+		return condition;
+				//op1AttrName + " " + operator + " " + op2AttrName;
+	}
+
 	public Condition(String cond, Table table) {
 		String op1 = cond.substring(0, cond.indexOf(' '));
 		String op2;
 
-		if(cond.contains("\""))
-			op2 = cond.substring(cond.indexOf('\"')+1, cond.lastIndexOf('\"'));
+		if (cond.contains("\""))
+			op2 = cond
+					.substring(cond.indexOf('\"') + 1, cond.lastIndexOf('\"'));
 		else
-			op2 = cond.substring(cond.lastIndexOf(' ')+1, cond.length());
-		
+			op2 = cond.substring(cond.lastIndexOf(' ') + 1, cond.length());
+
 		List<String> attrNames = new ArrayList<String>();
 		ColumnIdentifier[] colIDs = table.getColIDs();
 		for (int i = 0; i < colIDs.length; i++)
 			attrNames.add(colIDs[i].getColumnName());
-		
+
 		condition = cond;
 		op1AttrName = null;
 		op2AttrName = null;
@@ -33,8 +39,10 @@ public class Condition {
 			if (op2.compareTo(s) == 0)
 				op2AttrName = new String(s);
 		}
-		operator = cond.substring(cond.indexOf(' ')+1, (cond.contains("\""))?
-				cond.indexOf('\"') : cond.lastIndexOf(' '));
+		operator = cond.substring(
+				cond.indexOf(' ') + 1,
+				(cond.contains("\"")) ? cond.indexOf('\"') : cond
+						.lastIndexOf(' '));
 	}
 
 	public boolean meetsCondition(Record rec) {
@@ -42,7 +50,8 @@ public class Condition {
 		Object RHS = getRHSValue(rec);
 
 		if (LHS == null || RHS == null || !(LHS instanceof Comparable)
-				|| !(RHS instanceof Comparable) || !(LHS.getClass().equals(RHS.getClass())))
+				|| !(RHS instanceof Comparable)
+				|| !(LHS.getClass().equals(RHS.getClass())))
 			return true;
 
 		@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -75,18 +84,19 @@ public class Condition {
 			return RHSConstValue(getLHSValue(rec));
 	}
 
-	
 	private Object RHSConstValue(Object LHS) { // parse to same type as LHS
 		String op2;
-		if(condition.contains("\""))
-			op2 = condition.substring(condition.indexOf('\"')+1, condition.lastIndexOf('\"'));
+		if (condition.contains("\""))
+			op2 = condition.substring(condition.indexOf('\"') + 1,
+					condition.lastIndexOf('\"'));
 		else
-			op2 = condition.substring(condition.lastIndexOf(' ')+1, condition.length());
+			op2 = condition.substring(condition.lastIndexOf(' ') + 1,
+					condition.length());
 
 		if (LHS == null)
 			return null;
 
-		try{
+		try {
 			if (LHS instanceof Integer)
 				return Integer.valueOf(op2);
 			if (LHS instanceof Double)
@@ -101,8 +111,7 @@ public class Condition {
 				return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(op2);
 			if (LHS instanceof Boolean)
 				return Boolean.parseBoolean(op2);
-		}
-		catch(Exception e){
+		} catch (Exception e) {
 			return null;
 		}
 		return null;

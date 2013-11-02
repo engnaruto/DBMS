@@ -15,6 +15,11 @@ public class SQLParser {
 		this.dbms = dbms;
 	}
 
+	/**
+	 * The main method to parse the input string
+	 * 
+	 * @param toParse
+	 */
 	public void parseSQL(String toParse) {
 
 		StringTokenizer tokens = new StringTokenizer(toParse, " ");
@@ -24,16 +29,22 @@ public class SQLParser {
 			String operation = tokens.nextToken();
 
 			if (operation.equalsIgnoreCase("create")) {
+				// could be create statement
 				handleCreateStatement(tokens);
 			} else if (operation.equalsIgnoreCase("insert")) {
+				// could be insert statement
 				handleInsertStatement(tokens);
 			} else if (operation.equalsIgnoreCase("delete")) {
+				// could be delete statement
 				handleDeleteStatement(tokens);
 			} else if (operation.equalsIgnoreCase("select")) {
+				// could be select statement
 				handleSelectStatement(tokens);
 			} else if (operation.equalsIgnoreCase("update")) {
+				// could be update statement
 				handleUpdateStatement(tokens);
 			} else if (operation.equalsIgnoreCase("use")) {
+				// could be use statement
 				handleUseStatement(tokens);
 			} else {
 				System.out.println("ERROR: \"" + operation
@@ -44,6 +55,12 @@ public class SQLParser {
 		}
 	}
 
+	/**
+	 * when called, checks for validity of the Use statement and calls the
+	 * method for the specified database if exists
+	 * 
+	 * @param tokens
+	 */
 	private void handleUseStatement(StringTokenizer tokens) {
 		if (tokens.hasMoreTokens()) {
 			String dbName = tokens.nextToken();
@@ -56,6 +73,13 @@ public class SQLParser {
 			System.out.println("ERROR: WRONG INPUT");
 		}
 	}
+
+	/**
+	 * when called, checks for validity of the handle statement and calls the
+	 * method for the specified database if exists
+	 * 
+	 * @param tokens
+	 */
 
 	private void handleUpdateStatement(StringTokenizer tokens) {
 
@@ -177,7 +201,15 @@ public class SQLParser {
 								Condition cond = extractCondition(tokens, tb);
 
 								if (tb != null) {
-									tb.select(columnsNames.split(","), cond);
+									String[] arr = columnsNames.split(",");
+									String[] toBeTrimmed = new String[arr.length];
+									for (int i = 0; i < toBeTrimmed.length; i++) {
+										toBeTrimmed[i] = arr[i].trim();
+									}
+									RecordSet selected = tb.select(toBeTrimmed, cond);
+									for (Record r : selected) {
+										System.out.println(r.toString());
+									}
 								}
 							}
 
@@ -362,6 +394,15 @@ public class SQLParser {
 				}
 
 			} else {
+
+				String all = isWhere + " " + depleteTokens(tokens);
+				if (validateCondition(all)) {
+					// TODO :try to separate if not separated
+					Condition cond = new Condition(all, tb);
+					return cond;
+				} else {
+					System.out.println("ERROR: INVALID CONDITION FORMAT");
+				}
 				System.out
 						.println("ERROR: WRONG SQL STATEMENT, MISSING \"WHERE\"");
 			}
@@ -480,7 +521,7 @@ public class SQLParser {
 	}
 
 	private boolean verifyName(String objectName) {
-		return objectName.matches(nameReq);
+		return objectName.trim().matches(nameReq);
 	}
 
 }
