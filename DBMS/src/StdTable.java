@@ -152,8 +152,16 @@ public class StdTable implements Table {
 
 	}
 	
+	
 	public void update(String[] columnsNames, String[] values,
 			Condition condition) throws Exception {
+
+		System.out.println("op1:" + condition.op1AttrName);
+		System.out.println("op2:" + condition.op2AttrName);
+		
+		for(int i = 0; i < columnsNames.length; i++) {
+			System.out.println(columnsNames[i] + "=" + values[i]);
+		}
 		
 		Record r = new Record(columnsNames, values, this);
 		Object[] obj = new Object[columnsNames.length];
