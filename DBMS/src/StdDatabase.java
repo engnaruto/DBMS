@@ -63,9 +63,10 @@ public class StdDatabase implements Database {
 				out.write("[" + tableName + "]\n");
 				Table table = tables.get(tableName);
 				out.write(table.getColIDs().length + "\n");
-				for (ColumnIdentifier colId : table.getColIDs())
+				for (ColumnIdentifier colId : table.getColIDs()) {
 					out.write(colId.getColumnName() + ":"
 							+ colId.getColumnType().getName() + "\n");
+				}
 				out.write("--DONE--\n");
 			}
 
