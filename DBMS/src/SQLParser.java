@@ -137,12 +137,10 @@ public class SQLParser {
 					return;
 				}
 
-				toReturn += piece;
-
 				if (piece.contains("where"))
 					break;
 				else
-					toReturn += " ";
+					toReturn += piece + " ";
 			}
 
 			StringTokenizer tt = new StringTokenizer(toReturn, ",");
@@ -174,7 +172,7 @@ public class SQLParser {
 			try {
 				tb.update(columnsNames, values, condition);
 			} catch (Exception e) {
-				System.out.println("ERROR: UPDATING FAILED");
+				System.out.println("ERROR: UPDATING FAILED ba2a");
 			}
 
 		} else {
@@ -198,7 +196,7 @@ public class SQLParser {
 							if (db != null) {
 								Table tb = db.getTable(tableName);
 
-								Condition cond =  extractCondition(tokens, tb);
+								Condition cond = extractCondition(tokens, tb);
 
 								if (tb != null) {
 									String[] arr = columnsNames.split(",");
@@ -206,20 +204,18 @@ public class SQLParser {
 									for (int i = 0; i < toBeTrimmed.length; i++) {
 										toBeTrimmed[i] = arr[i].trim();
 									}
-									RecordSet selected = tb.select(toBeTrimmed, cond);
+									RecordSet selected = tb.select(toBeTrimmed,
+											cond);
 									for (Record r : selected) {
 										System.out.println(r.toString());
 									}
 								}
 							}
-
 						}
 					}
 				}
 			}
-
 		}
-
 	}
 
 	private void handleDeleteStatement(StringTokenizer tokens) {
@@ -314,7 +310,6 @@ public class SQLParser {
 				}
 			}
 		}
-
 	}
 
 	private void handleCreateStatement(StringTokenizer tokens) {
