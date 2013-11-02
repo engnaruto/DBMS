@@ -30,7 +30,7 @@ public class Record {
 		this.table = table;
 	}
 	
-	public Record(String[] columnsNames, String[] values, Table table) {
+	public Record(String[] columnsNames, String[] values, Table table) throws Exception {
 		cells = new Hashtable<String, Object>();
 		
 		this.table = table;
