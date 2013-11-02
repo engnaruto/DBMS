@@ -32,21 +32,11 @@ public class StdTable implements Table {
 	public void insert(Record newValues) throws Exception {
 
 		// rename table file to a "tableName.tmp":
-		try {
-			Files.move(tableFile.toPath(), tmpFile.toPath());
-		} catch (IOException e1) {
-			System.out.println("can't move to tmp file! " + e1.getMessage());
-			throw e1;
-		}
-		
-		System.out.println("old file: " + tableFile.getAbsolutePath());
-		System.out.println("tmp file: " + tmpFile.getAbsolutePath());
+		Files.copy(tableFile.toPath(), tmpFile.toPath());
 
 		// open tmpFile for read
 		XMLHandler tempFileXMLHandler = new XMLHandler(tmpFile, columnsId,
 				this, false);
-		
-		System.out.println("hello!");
 		
 		// open tableFile for write
 		XMLHandler tableFileXMLHandler = new XMLHandler(tableFile, columnsId,
@@ -106,7 +96,7 @@ public class StdTable implements Table {
 
 	public void delete(Condition condition) throws Exception {
 		// rename table file to a "tableName.tmp":
-		tableFile.renameTo(tmpFile);
+		Files.copy(tableFile.toPath(), tmpFile.toPath());
 
 		// open tmpFile for read
 		XMLHandler tempFileXMLHandler = new XMLHandler(tmpFile, columnsId,
@@ -134,7 +124,7 @@ public class StdTable implements Table {
 			Condition condition) throws Exception {
 
 		// rename table file to a "tableName.tmp":
-		tableFile.renameTo(tmpFile);
+		Files.copy(tableFile.toPath(), tmpFile.toPath());
 
 		// open tmpFile for read
 		XMLHandler tempFileXMLHandler = new XMLHandler(tmpFile, columnsId,
