@@ -10,7 +10,7 @@ public class Main {
 		System.out.println("Loading the interactive shell...");
 
 		while(true) {
-			System.out.print("% ");
+			System.out.print("SQL>> ");
 			String cmd = scan.nextLine();
 			if (cmd.equalsIgnoreCase("exit") || cmd.equalsIgnoreCase("quit")) {
 				scan.close();
